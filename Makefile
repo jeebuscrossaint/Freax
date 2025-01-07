@@ -1,5 +1,5 @@
 # Compiler and Linker
-CC = clang
+CC = tcc
 AS = nasm
 LD = ld
 
@@ -15,7 +15,7 @@ CFLAGS = -ffreestanding \
          -Werror \
          -Wformat=2 \
          -fstack-protector-strong \
-         -std=c23 \
+         -std=c11 \
          -m64 \
          -mno-red-zone
 ASFLAGS = -f elf64
