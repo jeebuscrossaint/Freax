@@ -73,6 +73,9 @@ iso: $(KERNEL_BIN)
 qemu: iso
 	qemu-system-x86_64 -cdrom $(ISO) -display sdl
 
+run: iso
+	qemu-system-x86_64 -cdrom $(ISO) -display sdl
+
 # Cleanup
 clean:
 	rm -rf $(BUILD_DIR)
