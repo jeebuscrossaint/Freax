@@ -1,29 +1,5 @@
 .vscode/
-compile_commands.json
 .cache
-build/
-
-# Added by cargo
-
-/target
-
-qemu-system-x86_64
-
-# Added by cargo
-#
-# already existing elements were commented out
-
-#/target
-
-xv6-x86_64/
-
-
-# Added by cargo
-#
-# already existing elements were commented out
-
-#/target
-
 build/
 *.iso
 *.o
