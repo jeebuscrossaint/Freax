@@ -5,7 +5,6 @@ LD = ld
 
 # CMAKE and compile_commands.json
 CMAKE_COMMAND = cmake
-COMPILE_COMMANDS = compile_commands.json
 
 # Compiler Flags
 CFLAGS = -ffreestanding \
@@ -45,13 +44,8 @@ OBJS = $(ASM_OBJS) $(C_OBJS)
 # Create necessary build directories
 $(shell mkdir -p $(BUILD_DIR)/boot $(BUILD_DIR)/kernel)
 
-$(COMPILE_COMMANDS): $(OBJS)
-	@echo "[" > $(COMPILE_COMMANDS)
-	@cat $(BUILD_DIR)/kernel/*.o.json $(BUILD_DIR)/boot/*.o.json | sed '$$!s/$$/,/' >> $(COMPILE_COMMANDS)
-	@echo "]" >> $(COMPILE_COMMANDS)
-
 # Targets
-all: $(KERNEL_BIN) $(COMPILE_COMMANDS)
+all: $(KERNEL_BIN)
 
 $(KERNEL_BIN): $(OBJS)
 	$(LD) $(LDFLAGS) -o $@ $^
@@ -77,7 +71,7 @@ iso: $(KERNEL_BIN)
 
 # QEMU Boot
 qemu: iso
-	qemu-system-x86_64 -cdrom $(ISO)
+	qemu-system-x86_64 -cdrom $(ISO) -display sdl
 
 # Cleanup
 clean:
