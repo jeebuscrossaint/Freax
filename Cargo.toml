@@ -2,5 +2,16 @@
 name = "Freax"
 version = "0.1.0"
 edition = "2024"
+build = "build.rs"
 
 [dependencies]
+
+[profile.dev]
+panic = "abort"
+
+[profile.release]
+panic = "abort"
+
+[package.metadata.cargo-xbuild]
+target = "riscv64imac-unknown-none-elf"
+linker = "linker.ld"
