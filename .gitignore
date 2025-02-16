@@ -6,8 +6,4 @@ build/
 *.img
 *.bin
 isodir/
-
-
-# Added by cargo
-
-/target
+limine/
