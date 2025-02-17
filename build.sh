@@ -77,14 +77,21 @@ print_success "Build complete: build/kernel.elf"
 echo -e "${CYAN}Manufacturing ISO...${RESET}"
 mkdir -p iso/boot
 cp -v build/kernel.elf iso/boot
-cp -v limine/limine-bios.sys limine/limine.cfg limine/limine-uefi-cd.bin boot/limine.cfg iso/boot/
+cp -v limine/limine-bios.sys iso/
+cp -v limine/limine-bios-cd.bin iso/limine-cd.bin 
 
 # Run xorriso to create the ISO
 print_success "Running xorriso to create the ISO."
-xorriso -as mkisofs -b boot/limine-bios.sys \
-    -no-emul-boot -boot-load-size 4 -boot-info-table \
-    --efi-boot boot/limine-uefi-cd.bin \
-    -o build/os.iso iso || { print_error "ISO creation failed."; exit 1; }
+xorriso -as mkisofs \
+    -b limine-bios.sys \
+    -no-emul-boot \
+    -boot-load-size 4 \
+    -boot-info-table \
+    --efi-boot limine-cd.bin \
+    -efi-boot-part \
+    --efi-boot-image \
+    --protective-msdos-label \
+    -o build/os.iso iso/ || { print_error "ISO creation failed."; exit 1; }
 
 if [ ! -f build/os.iso ]; then
     print_error "Error: ISO not created!"
@@ -92,3 +99,5 @@ if [ ! -f build/os.iso ]; then
 else
     print_success "ISO Created: build/os.iso"
 fi
+
+./limine/limine bios-install build/os.iso || { print_error "Limine install failed."; exit 1; }
